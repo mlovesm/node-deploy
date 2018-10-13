@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    <%= title %>
+  </title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+  <h1>
+    <%= title %>
+  </h1>
+  <p>Welcome to
+    <%= title %>
+  </p>
+
+  <!-- <script src="/socket.io/socket.io.js"></script> -->
+  <script>
+    var wSocket = new WebSocket("wss://api.upbit.com/websocket/v1");
+
+    wSocket.onmessage = function (e) {
+      console.log(e.data.toString());
+    }
+
+    wSocket.onopen = function (e) {
+      console.log("서버에 연결되었습니다.");
+      send();
+    }
+    wSocket.onclose = function (e) {
+      console.log("서버에 연결이 종료되었습니다.");
+    }
+
+    function send() { //서버로 데이터 전송
+      wSocket.send([{"ticker": "test"}, { "type": "ticker", "codes": ["KRW-BTC"] }]);
+    }
+
+
+  </script>
+</body>
+
+</html>
